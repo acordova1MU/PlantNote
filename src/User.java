@@ -1,14 +1,17 @@
-package com.plantcare;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class User {
+    private String firstname;
+    private String lastname;
     private String username;
     private String email;
-    private ArrayList<Plant> plants;
+    private List<Plant> plants;
 
-    public User(String username, String email) {
+    public User(String firstname, String lastname, String username, String email) {
+        this.firstname = firstname;
+        this.lastname = lastname;
         this.username = username;
         this.email = email;
         this.plants = new ArrayList<>();
@@ -18,25 +21,29 @@ public class User {
         plants.add(plant);
     }
 
-    public void deletePlant(String plantName) {
-        plants.removeIf(plant -> plant.getName().equals(plantName));
+    public void removePlant(Plant plant) {
+        plants.remove(plant);
     }
 
-    public List<Reminder> getAllReminders() {
-        List<Reminder> reminders = new ArrayList<>();
-        for (Plant plant : plants) {
-            reminders.addAll(plant.getReminders());
-        }
-        return reminders;
+    public List<Plant> getPlants() {
+        return plants;
     }
 
-    public List<Plant> searchPlants(String query) {
+    public List<Plant> searchPlants(String name) {
         return plants.stream()
-                .filter(plant -> plant.getName().contains(query))
+                .filter(plant -> plant.getPlantName().equalsIgnoreCase(name))
                 .collect(Collectors.toList());
     }
 
     // Getters
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
     public String getUsername() {
         return username;
     }
@@ -45,11 +52,15 @@ public class User {
         return email;
     }
 
-    public ArrayList<Plant> getPlants() {
-        return new ArrayList<>(plants); // Return a copy of the list to maintain encapsulation
+    // Setters
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
     }
 
-    // Setters
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
     public void setUsername(String username) {
         this.username = username;
     }
@@ -57,5 +68,4 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
-
 }
