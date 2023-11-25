@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Plant {
 	private String plantName;
 	private String plantType;
@@ -5,14 +7,25 @@ public class Plant {
 	private String plantSoil;
 	private LightExposure plantLight;
 	private Location plantLocation;
+	private ArrayList<Object> plantReminders = new ArrayList();
 	
-	public Plant (String name, String type, String description, String soil, LightExposure light, Location location) {
+	
+	public Plant (String name, String type, String description, String soil, LightExposure light, Location location, ArrayList<Object> reminders) {
 		this.plantName = name;
 		this.plantType = type;
 		this.plantDescription = description;
 		this.plantSoil = soil;
 		this.plantLight = light;
 		this.plantLocation = location;
+		this.plantReminders = reminders;
+	}
+
+	public ArrayList<Object> getPlantReminders() {
+		return plantReminders;
+	}
+
+	public void setPlantReminders(ArrayList<Object> plantReminders) {
+		this.plantReminders = plantReminders;
 	}
 
 	public String getPlantName() {
@@ -63,5 +76,20 @@ public class Plant {
 		this.plantLocation = plantLocation;
 	}
 	
+	public void displayPlant() {
+		System.out.println("Plant Name: " + plantName);
+		System.out.println("Plant Type: " + plantType);
+		System.out.println("Plant Description: " + plantDescription);
+		System.out.println("Plant Soil: " + plantSoil);
+		System.out.println("Plant Lighting: " + plantLight);
+		System.out.println("Plant Location: " + plantLocation);
+	}
 	
+	public void addReminder(Object reminder) {
+		plantReminders.add(reminder);
+	}
+	
+	public void removeReminder(Object reminder) {
+		plantReminders.remove(reminder);
+	}
 }
