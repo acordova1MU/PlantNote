@@ -10,14 +10,13 @@ public class Plant {
 	private ArrayList<Object> plantReminders = new ArrayList();
 	
 	
-	public Plant (String name, String type, String description, String soil, LightExposure light, Location location, ArrayList<Object> reminders) {
+	public Plant (String name, String type, String description, String soil, LightExposure light, Location location) {
 		this.plantName = name;
 		this.plantType = type;
 		this.plantDescription = description;
 		this.plantSoil = soil;
 		this.plantLight = light;
 		this.plantLocation = location;
-		this.plantReminders = reminders;
 	}
 
 	public ArrayList<Object> getPlantReminders() {
@@ -91,5 +90,15 @@ public class Plant {
 	
 	public void removeReminder(Object reminder) {
 		plantReminders.remove(reminder);
+	}
+	
+	public void displayReminders() {
+		if(plantReminders.size() == 0){  
+			System.out.println("No reminders!!");
+		} else {
+	    for(int i = 0; i < plantReminders.size(); i++) {
+	        System.out.println(plantReminders.get(i));
+	      }
+		}
 	}
 }
