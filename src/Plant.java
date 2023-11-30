@@ -5,12 +5,12 @@ public class Plant {
 	private String plantType;
 	private String plantDescription;
 	private String plantSoil;
-	private LightExposure plantLight;
-	private Location plantLocation;
-	private ArrayList<Object> plantReminders = new ArrayList();
+	private String plantLight;
+	private String plantLocation;
+	private ArrayList<Object> plantReminders = new ArrayList<Object>();
 	
 	
-	public Plant (String name, String type, String description, String soil, LightExposure light, Location location) {
+	public Plant (String name, String type, String description, String soil, String light, String location) {
 		this.plantName = name;
 		this.plantType = type;
 		this.plantDescription = description;
@@ -59,19 +59,19 @@ public class Plant {
 		this.plantSoil = plantSoil;
 	}
 
-	public LightExposure getPlantLight() {
+	public String getPlantLight() {
 		return plantLight;
 	}
 
-	public void setPlantLight(LightExposure plantLight) {
+	public void setPlantLight(String plantLight) {
 		this.plantLight = plantLight;
 	}
 
-	public Location getPlantLocation() {
+	public String getPlantLocation() {
 		return plantLocation;
 	}
 
-	public void setPlantLocation(Location plantLocation) {
+	public void setPlantLocation(String plantLocation) {
 		this.plantLocation = plantLocation;
 	}
 	
