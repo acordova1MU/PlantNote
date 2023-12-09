@@ -155,9 +155,6 @@ public class UserInterface {
                     deletePlantReminder(); 
                     break;
                 case 3:
-                    searchPlantReminders(); 
-                    break;
-                case 4:
                     viewAllPlantReminders(); 
                     break;
                 case 0:
@@ -171,13 +168,18 @@ public class UserInterface {
     
     private static void addPlantReminder() {
     	currentPlant.addReminder();
+    	scanner.nextInt();
     }
     
     private static void deletePlantReminder() {
-    	currentPlant.removeReminder(null);
-    }
-    
-    private static void searchPlantReminders() {
+    	currentPlant.displayReminders();
+    	System.out.print("Enter the reminder number for the reminder you'd like to delete: ");
+    	int reminderSelection = scanner.nextInt();
+        if (reminderSelection >= 0 || reminderSelection <= currentPlant.getPlantReminders().size()) {
+        	currentPlant.removeReminder(reminderSelection);
+        } else {
+        	System.out.println("Invalid Selection");
+        }
     }
     
     private static void viewAllPlantReminders() {
@@ -188,8 +190,7 @@ public class UserInterface {
     private static void printPlantMenu() {
         System.out.println("1. Add Reminder");
         System.out.println("2. Delete Reminder");
-        System.out.println("3. Search Reminder");
-        System.out.println("4. View all Reminders");
+        System.out.println("3. View all Reminders");
         System.out.println("0. Exit");
         System.out.print("Enter choice: ");
     }

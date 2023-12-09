@@ -9,6 +9,8 @@ public class TestingDemo {
 		myPlant.addReminder();
 		//setFirstWater and SetInterval ???
 		myPlant.displayReminders();
+		myPlant.removeReminder(0);
+		myPlant.displayReminders();
 	}
 
 }

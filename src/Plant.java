@@ -169,8 +169,8 @@ public class Plant {
 	        plantReminders.add(userReminder);
 	}
 	
-	public void removeReminder(Reminder reminder) {
-		plantReminders.remove(reminder);
+	public void removeReminder(int i) {
+		plantReminders.remove(plantReminders.get(i));
 	}
 	
 	public void displayReminders() {
@@ -178,6 +178,7 @@ public class Plant {
 			System.out.println("No reminders!!");
 		} else {
 	    for(int i = 0; i < plantReminders.size(); i++) {
+	    	System.out.println("Reminder: " + i);
 	        plantReminders.get(i).printReminder();
 	      }
 		}
