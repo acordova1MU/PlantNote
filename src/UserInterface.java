@@ -2,17 +2,17 @@ import java.util.List;
 import java.util.Scanner;
 
 public class UserInterface {
-    private static User user = new User("John", "Smith", "jsmith", "john@example.com");
+    static User user = new User("John", "Smith", "jsmith", "john@example.com");
     private static Scanner scanner = new Scanner(System.in);
     static Plant currentPlant = null;
-
     public static void main(String[] args) {
+    	randomPlants();
         boolean running = true;
         while (running) {
             printMenu();
             int choice = scanner.nextInt();
             scanner.nextLine();
-
+            
             switch (choice) {
                 case 1:
                     addPlant();
@@ -39,6 +39,13 @@ public class UserInterface {
     }
     // Here is a User menu that we can add some more options to like reminders, This could also be called "Users Owned Plants Menu"
     // or something along those lines since this is where they can edit their list of plants and view them.
+    private static void randomPlants() {
+    	Plant plant1 = new Plant("Alex", "Cactus", "Spikey cactus plant", "Potting soil and pea gravel", "Fullsun", "Indoor");
+    	Plant plant2 = new Plant("Gaby", "Rose", "Pretty", "Potting soil", "Half-Sun", "Outdoor");
+    	user.addPlant(plant1);
+    	user.addPlant(plant2);
+    }
+    
     private static void printMenu() {
         System.out.println("\n" + user.getFirstname() + " " + user.getLastname() + "'s User Menu");
         System.out.println("1. Add Plant");
@@ -98,6 +105,8 @@ public class UserInterface {
                 if (plantSelection >= 0 || plantSelection <= foundPlants.size()) {
                 	currentPlant = foundPlants.get(plantSelection);
                 	plantMenu();
+                } else {
+                	System.out.println("Invalid Selection");
                 }
             }
         }
@@ -116,13 +125,15 @@ public class UserInterface {
             
             //Asks user if they'd like to select a plant
             System.out.print("Enter 'Y' if you would like to select a plant");
-            char selectPlant = scanner.next().charAt(1);
+            char selectPlant = scanner.next().charAt(0);
             if (selectPlant == 'y' || selectPlant == 'Y') {
                 System.out.print("Select Plant (Enter Plant Number): ");
                 int plantSelection = scanner.nextInt();
                 if (plantSelection >= 0 || plantSelection <= plants.size()) {
                 	currentPlant = plants.get(plantSelection);
                 	plantMenu();
+                } else {
+                	System.out.println("Invalid Selection");
                 }
             }
         }
@@ -138,16 +149,16 @@ public class UserInterface {
             
             switch (choice) {
                 case 1:
-                    //addPlantReminder(); will add later
+                    addPlantReminder();
                     break;
                 case 2:
-                    //deletePlantReminder(); will add later
+                    deletePlantReminder(); 
                     break;
                 case 3:
-                    //searchPlantReminders(); will add later
+                    searchPlantReminders(); 
                     break;
                 case 4:
-                    //viewAllReminders(); will add later
+                    viewAllPlantReminders(); 
                     break;
                 case 0:
                     runningPlantMenu = false;
@@ -156,6 +167,21 @@ public class UserInterface {
                     System.out.println("Invalid choice. Please try again.");
             }
         }
+    }
+    
+    private static void addPlantReminder() {
+    	currentPlant.addReminder();
+    }
+    
+    private static void deletePlantReminder() {
+    	currentPlant.removeReminder(null);
+    }
+    
+    private static void searchPlantReminders() {
+    }
+    
+    private static void viewAllPlantReminders() {
+    	currentPlant.displayReminders();
     }
     
     //Prints Plant Menu
