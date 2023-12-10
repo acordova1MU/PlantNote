@@ -15,7 +15,7 @@ public class UserInterface {
             printMenu();
             int choice = scanner.nextInt();
             scanner.nextLine();
-            
+            System.out.println();
             switch (choice) {
                 case 1:
                     addPlant();
@@ -42,8 +42,10 @@ public class UserInterface {
     }
     // Here is a User menu that we can add some more options to like reminders, This could also be called "Users Owned Plants Menu"
     // or something along those lines since this is where they can edit their list of plants and view them.
+    
+    //This method adds some plants to user without me having to go through user interface every time, just makes it easier to test functionality
     private static void randomPlants() {
-    	Plant plant1 = new Plant("Alex", "Cactus", "Spikey cactus plant", "Potting soil and pea gravel", "Fullsun", "Indoor");
+    	Plant plant1 = new Plant("Alex", "Cactus", "Spikey cactus plant", "Potting soil and pea gravel", "Full-Sun", "Indoor");
     	Plant plant2 = new Plant("Gaby", "Rose", "Pretty", "Potting soil", "Half-Sun", "Outdoor");
     	user.addPlant(plant1);
     	user.addPlant(plant2);
@@ -57,6 +59,7 @@ public class UserInterface {
         System.out.println("4. View ALL Plants");
         System.out.println("5. View User Information");
         System.out.println("0. Exit");
+        System.out.println();
         System.out.print("Enter choice: ");
     }
 
@@ -122,13 +125,15 @@ public class UserInterface {
             System.out.println("No plants found.");
         } else {
             System.out.println("All Plants:");
+            System.out.println();
             for (Plant plant : plants) {
             	System.out.println("Plant Number: " + plants.indexOf(plant)); //Prints the index of current plant
                 plant.displayPlant();
+                System.out.println();
             }
             
             //Asks user if they'd like to select a plant
-            System.out.print("Enter 'Y' if you would like to select a plant");
+            System.out.print("Enter 'Y' if you would like to select a plant: ");
             char selectPlant = scanner.next().charAt(0);
             if (selectPlant == 'y' || selectPlant == 'Y') {
                 System.out.print("Select Plant (Enter Plant Number): ");
@@ -152,6 +157,7 @@ public class UserInterface {
             printPlantMenu();
             choice = scanner.nextInt();
             scanner.nextLine();
+            System.out.println();
             switch (choice) {
                 case 1:
                     addPlantReminder();
@@ -273,6 +279,7 @@ public class UserInterface {
         System.out.println("2. Delete Reminder");
         System.out.println("3. View all Reminders");
         System.out.println("0. Exit");
+        System.out.println();
         System.out.print("Enter choice: ");
     }
     
