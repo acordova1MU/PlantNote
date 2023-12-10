@@ -1,3 +1,6 @@
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -102,6 +105,7 @@ public class UserInterface {
             if (selectPlant == 'y' || selectPlant == 'Y') {
                 System.out.print("Select Plant (Enter Plant Number): ");
                 int plantSelection = scanner.nextInt();
+                scanner.nextLine();
                 if (plantSelection >= 0 || plantSelection <= foundPlants.size()) {
                 	currentPlant = foundPlants.get(plantSelection);
                 	plantMenu();
@@ -129,6 +133,7 @@ public class UserInterface {
             if (selectPlant == 'y' || selectPlant == 'Y') {
                 System.out.print("Select Plant (Enter Plant Number): ");
                 int plantSelection = scanner.nextInt();
+                scanner.nextLine();
                 if (plantSelection >= 0 || plantSelection <= plants.size()) {
                 	currentPlant = plants.get(plantSelection);
                 	plantMenu();
@@ -142,11 +147,11 @@ public class UserInterface {
     //Plant Menu
     private static void plantMenu() {
         boolean runningPlantMenu = true;
+        int choice;
         while (runningPlantMenu) {
             printPlantMenu();
-            int choice = scanner.nextInt();
+            choice = scanner.nextInt();
             scanner.nextLine();
-            
             switch (choice) {
                 case 1:
                     addPlantReminder();
@@ -167,14 +172,90 @@ public class UserInterface {
     }
     
     private static void addPlantReminder() {
-    	currentPlant.addReminder();
-    	scanner.nextInt();
+        Reminder userReminder = new Reminder();
+
+        int userIn = 0;
+        while (userIn < 1 || userIn > 3) {
+            System.out.println("What type of reminder would you like to create?\n1. Water\n2. Sunlight\n3. Soil Change\nPlease enter 1, 2, or 3:");
+            try {
+                userIn = scanner.nextInt();
+                scanner.nextLine();
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a number (1, 2, or 3).");
+                scanner.nextLine(); // Clear the buffer
+            }
+        }
+        
+        // Map user input to reminder type
+        switch (userIn) {
+            case 1:
+                userReminder.setType("Water");
+                break;
+            case 2:
+                userReminder.setType("Sunlight");
+                break;
+            case 3:
+                userReminder.setType("Soil Change");
+                break;
+        }
+        
+        
+        //Assign due date for reminder
+        System.out.println("When would you like to recieve this reminder?");
+        
+        
+        LocalDate newDate = null;
+        while (newDate == null) {
+            System.out.print("Enter new date (YYYY-MM-DD): ");
+            String dateInput = scanner.nextLine();
+            try {
+            	newDate = LocalDate.parse(dateInput);
+            	 } catch (DateTimeParseException e) {
+            		  System.out.println("Invalid date format. Please try again.");
+            	  }
+        }
+        
+        
+        userReminder.setDueDate(newDate);
+        //Assign interval for reminder
+        System.out.println("How often would you like to recieve these reminders? (in days?)");
+        try {
+                userIn = scanner.nextInt();
+                scanner.nextLine();
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a number.");
+                scanner.next(); // Clear the buffer
+            }
+        userReminder.setIntervalDays(userIn);
+        
+        
+        // Ask user if they want to create a custom message for reminder.
+        String userResponse = "";
+        while (!userResponse.equals("y") && !userResponse.equals("n")) {
+            System.out.println("Would you like to create a custom message for your reminder? (y/n)");
+            userResponse = scanner.next().toLowerCase(); // Read the response and convert to lower case
+            scanner.nextLine();
+            if (!userResponse.equals("y") && !userResponse.equals("n")) {
+                System.out.println("Invalid input. Please enter 'y' for yes or 'n' for no.");
+            }
+        }
+
+        // Prompt for custom message if user entered 'y'
+        if (userResponse.equals("y")) {
+            System.out.println("Enter your custom message:");
+            String message = scanner.nextLine();
+            userReminder.setMessage(message); // Read the custom message
+        }
+        
+        System.out.println("Reminder Created! :)");
+        currentPlant.addReminder(userReminder);
     }
     
     private static void deletePlantReminder() {
     	currentPlant.displayReminders();
     	System.out.print("Enter the reminder number for the reminder you'd like to delete: ");
     	int reminderSelection = scanner.nextInt();
+    	scanner.nextLine();
         if (reminderSelection >= 0 || reminderSelection <= currentPlant.getPlantReminders().size()) {
         	currentPlant.removeReminder(reminderSelection);
         } else {
