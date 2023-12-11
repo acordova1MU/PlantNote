@@ -1,7 +1,10 @@
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 public class Plant {
@@ -26,6 +29,17 @@ public class Plant {
 	public ArrayList<Reminder> getPlantReminders() {
 		return plantReminders;
 	}
+
+	public List<Reminder> getSortedReminders() {
+        List<Reminder> sortedReminders = new ArrayList<>(this.getPlantReminders());
+        Collections.sort(sortedReminders, new Comparator<Reminder>() {
+            @Override
+            public int compare(Reminder r1, Reminder r2) {
+                return r1.getDueDate().compareTo(r2.getDueDate());
+            }
+        });
+        return sortedReminders;
+    }
 
 	public void setPlantReminders(ArrayList<Reminder> plantReminders) {
 		this.plantReminders = plantReminders;

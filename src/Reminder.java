@@ -8,6 +8,7 @@ public class Reminder {
     private LocalDate dueDate; // due date for the reminder
     private int intervalDays; // Interval in days for the reminder
     private String message = ""; //message to be sent with reminder
+    private boolean isCustomMessageSet = false; // Flag to indicate if a custom message is set
 
     //Default constructor for creating new reminders
     public Reminder(){}
@@ -74,36 +75,38 @@ public class Reminder {
     }
 
     public void setMessage(String message) {
-        this.message = message;
-    }
-    
-    public void printReminderDue(){
-        System.out.println("Reminder Type: " + this.type);
-
-        if (this.message == "default"){
-            switch (this.type){
+        if (message.isEmpty()) {
+            // These will be the default messages if the user opts out of creating a custom message
+            switch (this.type) {
                 case "Water":
-                    System.out.println("It's time to water your plant!");
+                    this.message = "It's time to water your plant!";
                     break;
                 case "Soil":
-                    System.out.println("It's time to change your plants soil");
+                    this.message = "It's time to change your plant's soil";
                     break;
                 case "Sun":
-                    System.out.println("It's time to put your plant in the sun!");
+                    this.message = "It's time to put your plant in the sun!";
                     break;
                 default:
-                    System.out.println("I was supposed to remind you of something...");
+                    this.message = "Reminder set.";
             }
+            this.isCustomMessageSet = false;
+        } else {
+            // Set custom message
+            this.message = message;
+            this.isCustomMessageSet = true;
         }
-        else{
-            System.out.println(message);
-        }
+    }
+    
+    public void printReminderDue() {
+        System.out.println("Reminder Type: " + this.type);
+        System.out.println(this.message); // Print the message (default or custom)
     }
     
     public void printReminder() {
     	System.out.println("Reminder Type: " + this.getType());
     	System.out.println("Due Date: " + this.getDueDate());
-    	System.out.println("Intervals : " + this.getIntervalDays());
+    	System.out.println("Intervals: " + this.getIntervalDays());
     	System.out.println("Message: " + this.getMessage());
     }
 

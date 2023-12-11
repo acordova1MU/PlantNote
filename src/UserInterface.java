@@ -251,6 +251,8 @@ public class UserInterface {
             System.out.println("Enter your custom message:");
             String message = scanner.nextLine();
             userReminder.setMessage(message); // Read the custom message
+        } else {
+            userReminder.setMessage("");
         }
         
         System.out.println("Reminder Created! :)");
@@ -270,7 +272,16 @@ public class UserInterface {
     }
     
     private static void viewAllPlantReminders() {
-    	currentPlant.displayReminders();
+        List<Reminder> sortedReminders = currentPlant.getSortedReminders();
+        if (sortedReminders.isEmpty()) {
+            System.out.println("No reminders found.");
+        } else {
+            System.out.println("Plant Reminders:");
+            for (Reminder reminder : sortedReminders) {
+                reminder.printReminder();
+                System.out.println();
+            }
+        }
     }
     
     //Prints Plant Menu
