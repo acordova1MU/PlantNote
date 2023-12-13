@@ -1,44 +1,27 @@
 import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
-import java.util.InputMismatchException;
-import java.util.Scanner;
 
 public class Reminder {
     private String type; // e.g., "Water", "Sun", "Soil"
     private LocalDate dueDate; // due date for the reminder
     private int intervalDays; // Interval in days for the reminder
     private String message = ""; //message to be sent with reminder
-    private boolean isCustomMessageSet = false; // Flag to indicate if a custom message is set
 
-    //Default constructor for creating new reminders
-    public Reminder(){}
-
-    // Constructor w/o message
-    public Reminder(String type, LocalDate initialDueDate, int intervalDays) {
-        this.type = type;
-        this.dueDate = initialDueDate;
-        this.intervalDays = intervalDays;
-        setNextDueDate(); // Set the first due date based on the interval
-    }
-
-    //constructor w/ message
+    //constructor
     public Reminder(String type, LocalDate initialDueDate, int intervalDays, String message) {
         this.type = type;
         this.dueDate = initialDueDate;
         this.intervalDays = intervalDays;
         this.message = message;
-        setNextDueDate(); // Set the first due date based on the interval
     }
 
     // Automatically calculate and update the due date based on the interval
     public void setNextDueDate() {
-        this.dueDate = LocalDate.now().plusDays(this.intervalDays);
+        this.dueDate = this.dueDate.plusDays(this.intervalDays);
     }
 
     // Method to update the interval
     public void updateInterval(int newIntervalDays) {
         this.intervalDays = newIntervalDays;
-        setNextDueDate(); // Update the due date based on the new interval
     }
 
     // Getter and setter for type
@@ -90,11 +73,9 @@ public class Reminder {
                 default:
                     this.message = "Reminder set.";
             }
-            this.isCustomMessageSet = false;
         } else {
             // Set custom message
             this.message = message;
-            this.isCustomMessageSet = true;
         }
     }
     
@@ -105,14 +86,32 @@ public class Reminder {
     
     public void printReminder() {
     	System.out.println("Reminder Type: " + this.getType());
-    	System.out.println("Due Date: " + this.getDueDate());
-    	System.out.println("Intervals: " + this.getIntervalDays());
+    	System.out.println("Due Date (YYYY-MM-DD): " + this.getDueDate());
+    	System.out.println("Reminder Frequency: " + this.getIntervalDays() + " Days");
     	System.out.println("Message: " + this.getMessage());
     }
 
     //function to check to see if a reminder is due.
-    public void checkReminder(Reminder reminder){
+    public void checkReminder(){
+        LocalDate today = LocalDate.now();
+        boolean remDue = false;
 
+        // Check if the reminder's due date is today or in the past
+        if (!getDueDate().isAfter(today) || getDueDate().equals(today)){
+            remDue = true;
+        }
+
+        if (remDue == true) {
+            System.out.println("REMINDER DUE!");
+            printReminderDue();
+            System.out.println("Old reminder due date (YYYY-MM-DD): " + getDueDate());
+            setNextDueDate();
+            System.out.println("New reminder due date (YYYY-MM-DD): " + getDueDate());
+        }
+        else{
+            printReminder();
+        }
+        
+        return;
     }
-
 }

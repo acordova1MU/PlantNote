@@ -1,11 +1,7 @@
-import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.InputMismatchException;
 import java.util.List;
-import java.util.Scanner;
 
 public class Plant {
 	private String plantName;
@@ -110,6 +106,7 @@ public class Plant {
 		plantReminders.remove(plantReminders.get(i));
 	}
 	
+
 	public void displayReminders() {
 		if(plantReminders.size() == 0){  
 			System.out.println("No reminders!!");
@@ -117,6 +114,7 @@ public class Plant {
 	    for(int i = 0; i < plantReminders.size(); i++) {
 	    	System.out.println("Reminder: " + i);
 	        plantReminders.get(i).printReminder();
+			System.out.println();
 	      }
 		}
 	}

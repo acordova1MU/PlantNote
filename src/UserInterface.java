@@ -53,6 +53,7 @@ public class UserInterface {
     
     private static void printMenu() {
         System.out.println("\n" + user.getFirstname() + " " + user.getLastname() + "'s User Menu");
+        System.out.println();
         System.out.println("1. Add Plant");
         System.out.println("2. Delete Plant");
         System.out.println("3. Search Plant");
@@ -103,12 +104,13 @@ public class UserInterface {
             }
             
             //Asks user if they'd like to select a plant
-            System.out.print("Enter 'Y' if you would like to select a plant");
-            char selectPlant = scanner.next().charAt(1);
+            System.out.println("Enter 'Y' if you would like to select a plant");
+            char selectPlant = scanner.next().charAt(0);
             if (selectPlant == 'y' || selectPlant == 'Y') {
                 System.out.print("Select Plant (Enter Plant Number): ");
                 int plantSelection = scanner.nextInt();
                 scanner.nextLine();
+                System.out.println();
                 if (plantSelection >= 0 || plantSelection <= foundPlants.size()) {
                 	currentPlant = foundPlants.get(plantSelection);
                 	plantMenu();
@@ -135,10 +137,12 @@ public class UserInterface {
             //Asks user if they'd like to select a plant
             System.out.print("Enter 'Y' if you would like to select a plant: ");
             char selectPlant = scanner.next().charAt(0);
+            System.out.println();
             if (selectPlant == 'y' || selectPlant == 'Y') {
                 System.out.print("Select Plant (Enter Plant Number): ");
                 int plantSelection = scanner.nextInt();
                 scanner.nextLine();
+                System.out.println();
                 if (plantSelection >= 0 || plantSelection <= plants.size()) {
                 	currentPlant = plants.get(plantSelection);
                 	plantMenu();
@@ -178,11 +182,14 @@ public class UserInterface {
     }
     
     private static void addPlantReminder() {
-        Reminder userReminder = new Reminder();
+        String uType; 
+        LocalDate uDueDate; 
+        int uInterval; 
+        String uMessage;
 
         int userIn = 0;
         while (userIn < 1 || userIn > 3) {
-            System.out.println("What type of reminder would you like to create?\n1. Water\n2. Sunlight\n3. Soil Change\nPlease enter 1, 2, or 3:");
+            System.out.print("What type of reminder would you like to create?\n1. Water\n2. Sunlight\n3. Soil Change\nPlease enter 1, 2, or 3:");
             try {
                 userIn = scanner.nextInt();
                 scanner.nextLine();
@@ -191,17 +198,20 @@ public class UserInterface {
                 scanner.nextLine(); // Clear the buffer
             }
         }
-        
+        System.out.println();
         // Map user input to reminder type
         switch (userIn) {
             case 1:
-                userReminder.setType("Water");
+                uType = "Water";
                 break;
             case 2:
-                userReminder.setType("Sunlight");
+                uType = "Sunlight";
                 break;
             case 3:
-                userReminder.setType("Soil Change");
+                uType = "Soil Change";
+                break;
+            default:
+                uType = "N/A";
                 break;
         }
         
@@ -214,48 +224,57 @@ public class UserInterface {
         while (newDate == null) {
             System.out.print("Enter new date (YYYY-MM-DD): ");
             String dateInput = scanner.nextLine();
+            System.out.println();
             try {
             	newDate = LocalDate.parse(dateInput);
             	 } catch (DateTimeParseException e) {
             		  System.out.println("Invalid date format. Please try again.");
+                      System.out.println();
             	  }
         }
         
-        
-        userReminder.setDueDate(newDate);
+        uDueDate = newDate;
+
         //Assign interval for reminder
-        System.out.println("How often would you like to recieve these reminders? (in days?)");
+        System.out.print("How often would you like to recieve these reminders? (in days): ");
         try {
                 userIn = scanner.nextInt();
                 scanner.nextLine();
+                System.out.println();
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input. Please enter a number.");
                 scanner.next(); // Clear the buffer
+                System.out.println();
             }
-        userReminder.setIntervalDays(userIn);
-        
+        uInterval = userIn;
         
         // Ask user if they want to create a custom message for reminder.
         String userResponse = "";
         while (!userResponse.equals("y") && !userResponse.equals("n")) {
-            System.out.println("Would you like to create a custom message for your reminder? (y/n)");
+            System.out.print("Would you like to create a custom message for your reminder? (y/n): ");
             userResponse = scanner.next().toLowerCase(); // Read the response and convert to lower case
             scanner.nextLine();
+            System.out.println();
             if (!userResponse.equals("y") && !userResponse.equals("n")) {
                 System.out.println("Invalid input. Please enter 'y' for yes or 'n' for no.");
+                System.out.println();
             }
         }
 
         // Prompt for custom message if user entered 'y'
         if (userResponse.equals("y")) {
-            System.out.println("Enter your custom message:");
-            String message = scanner.nextLine();
-            userReminder.setMessage(message); // Read the custom message
+            System.out.print("Enter your custom message:");
+            uMessage = scanner.nextLine();
         } else {
-            userReminder.setMessage("");
+            uMessage = "";
         }
+        System.out.println();
         
+        Reminder userReminder = new Reminder(uType, uDueDate, uInterval, uMessage);
+        userReminder.setMessage(userReminder.getMessage());
+
         System.out.println("Reminder Created! :)");
+        System.out.println();
         currentPlant.addReminder(userReminder);
     }
     
@@ -264,11 +283,14 @@ public class UserInterface {
     	System.out.print("Enter the reminder number for the reminder you'd like to delete: ");
     	int reminderSelection = scanner.nextInt();
     	scanner.nextLine();
+        System.out.println();
         if (reminderSelection >= 0 || reminderSelection <= currentPlant.getPlantReminders().size()) {
         	currentPlant.removeReminder(reminderSelection);
+            System.out.println("Reminder Deleted!");
         } else {
         	System.out.println("Invalid Selection");
         }
+        System.out.println();
     }
     
     private static void viewAllPlantReminders() {
@@ -277,8 +299,9 @@ public class UserInterface {
             System.out.println("No reminders found.");
         } else {
             System.out.println("Plant Reminders:");
+            System.out.println();
             for (Reminder reminder : sortedReminders) {
-                reminder.printReminder();
+                reminder.checkReminder();;
                 System.out.println();
             }
         }
@@ -286,6 +309,7 @@ public class UserInterface {
     
     //Prints Plant Menu
     private static void printPlantMenu() {
+        System.out.println("Plant Menu:");
         System.out.println("1. Add Reminder");
         System.out.println("2. Delete Reminder");
         System.out.println("3. View all Reminders");
@@ -302,5 +326,5 @@ public class UserInterface {
         System.out.println("Last Name: " + user.getLastname());
         System.out.println("Username: " + user.getUsername());
         System.out.println("Email: " + user.getEmail());
-    }
+    }    
 }
